@@ -3,9 +3,11 @@
 
 @layer base {
   body {
-    @apply font-one bg-blue-100;
+    @apply font-one bg-blue-100 dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-800;
   }
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-one: Noto Sans;

@@ -48,23 +48,27 @@ export function FeatureCard({
   return (
     <>
       <div
-        className={`bg-white p-4 rounded-2xl m-4 ${
+        className={`bg-white p-4 rounded-2xl m-4 dark:bg-slate-800 ${
           isFading
-            ? "opacity-5 border-4 border-red-700 animate-pulse duration-75 ease-out "
+            ? "opacity-5 border-2  border-dashed border-red-500 animate-pulse duration-75 ease-out "
             : "opacity-100"
         }`}
       >
         <div className="flex flex-row gap-4">
           <img src={logoIcons[logo]} className="self-start" alt="" />
-          <div className="flex flex-col gap-y-2">
-            <p className="font-extrabold text-2xl text-gray-700">{name}</p>{" "}
-            <p className="text-xl text-gray-600">{description}</p>
+          <div className="flex flex-col gap-y-2 ">
+            <p className="font-extrabold text-2xl text-gray-700 dark:text-white">
+              {name}
+            </p>{" "}
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              {description}
+            </p>
           </div>
         </div>
         <div className="flex flex-row justify-between mt-8">
           <button
             onClick={handleRemoveClick}
-            className="text-lg border-2 border-gray-400 px-4 rounded-full active:bg-rose-500"
+            className="text-lg border-2 border-gray-400 px-4 dark:text-white rounded-full active:bg-rose-500"
           >
             Remove
           </button>

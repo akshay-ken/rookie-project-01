@@ -26,15 +26,15 @@ export function MainPage() {
   }
 
   const allFilterStyle = clsx(
-    "active:bg-red-500 bg-white px-4 py-2 rounded-full",
+    "active:bg-red-500 bg-white px-4 py-2 rounded-full dark:bg-slate-700 dark:text-white",
     { "!bg-red-700": allFilter }
   );
   const activeFilterStyle = clsx(
-    "active:bg-red-500 bg-white px-4 py-2 rounded-full",
+    "active:bg-red-500 bg-white px-4 py-2 rounded-full dark:bg-slate-700 dark:text-white",
     { "!bg-red-700": activeFilter }
   );
   const inactiveFilterStyle = clsx(
-    "active:bg-red-500 bg-white px-4 py-2 rounded-full",
+    "active:bg-red-500 bg-white px-4 py-2 rounded-full dark:bg-slate-700 dark:text-white",
     { "!bg-red-700": inactiveFilter }
   );
 
@@ -58,13 +58,13 @@ export function MainPage() {
 
   return (
     <>
-      <main className="w-full">
+      <main className="w-full md:max-w-6xl md:mx-auto">
         <HeaderSection />
-        <div>
-          <h1 className="text-4xl text-center font-bold text-black my-6">
+        <div className="md:flex md:justify-between md:items-center">
+          <h1 className="text-4xl md:text-left text-center font-bold text-black dark:text-white">
             Extensions List
           </h1>
-          <div className="text-2xl font-medium flex flex-row justify-evenly">
+          <div className="text-2xl font-medium md:gap-x-8 py-4  flex flex-row justify-evenly">
             <button onClick={handleAllFilter} className={allFilterStyle}>
               All
             </button>
@@ -79,22 +79,9 @@ export function MainPage() {
             </button>
           </div>
         </div>
-        {features.map((currentCard) => {
-          if (allFilter) {
-            return (
-              <FeatureCard
-                key={currentCard.logo}
-                name={currentCard.name}
-                description={currentCard.description}
-                logo={currentCard.logo}
-                isActive={currentCard.isActive}
-                onToggle={() => handleToggle(currentCard.logo)}
-                onRemove={() => handleRemove(currentCard.logo)}
-              />
-            );
-          }
-          if (activeFilter) {
-            if (currentCard.isActive) {
+        <div className="md:grid md:grid-cols-3">
+          {features.map((currentCard) => {
+            if (allFilter) {
               return (
                 <FeatureCard
                   key={currentCard.logo}
@@ -103,25 +90,42 @@ export function MainPage() {
                   logo={currentCard.logo}
                   isActive={currentCard.isActive}
                   onToggle={() => handleToggle(currentCard.logo)}
+                  onRemove={() => handleRemove(currentCard.logo)}
                 />
               );
             }
-          }
-          if (inactiveFilter) {
-            if (currentCard.isActive === false) {
-              return (
-                <FeatureCard
-                  key={currentCard.logo}
-                  name={currentCard.name}
-                  description={currentCard.description}
-                  logo={currentCard.logo}
-                  isActive={currentCard.isActive}
-                  onToggle={() => handleToggle(currentCard.logo)}
-                />
-              );
+            if (activeFilter) {
+              if (currentCard.isActive) {
+                return (
+                  <FeatureCard
+                    key={currentCard.logo}
+                    name={currentCard.name}
+                    description={currentCard.description}
+                    logo={currentCard.logo}
+                    isActive={currentCard.isActive}
+                    onToggle={() => handleToggle(currentCard.logo)}
+                    onRemove={() => handleRemove(currentCard.logo)}
+                  />
+                );
+              }
             }
-          }
-        })}
+            if (inactiveFilter) {
+              if (currentCard.isActive === false) {
+                return (
+                  <FeatureCard
+                    key={currentCard.logo}
+                    name={currentCard.name}
+                    description={currentCard.description}
+                    logo={currentCard.logo}
+                    isActive={currentCard.isActive}
+                    onToggle={() => handleToggle(currentCard.logo)}
+                    onRemove={() => handleRemove(currentCard.logo)}
+                  />
+                );
+              }
+            }
+          })}
+        </div>
       </main>
     </>
   );
