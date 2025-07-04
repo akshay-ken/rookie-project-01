@@ -13,11 +13,6 @@ import linkCheckerIcon from "../assets/images/logo-link-checker.svg";
 import domSnapIcon from "../assets/images/logo-dom-snapshot.svg";
 import consolePlusIcon from "../assets/images/logo-console-plus.svg";
 
-// const logoIcons = {
-//   devLensIcon: "devLensIcon",
-//   spyIcon: "spyIcon",
-//   speedBoostIcon: "speedBoostIcon",
-// };
 const logoIcons = {
   devLensIcon,
   spyIcon,
@@ -33,11 +28,32 @@ const logoIcons = {
   consolePlusIcon,
 };
 
-export function FeatureCard({ logo, name, description, isActive }) {
-  const [enabled, setEnabled] = useState(false);
+export function FeatureCard({
+  logo,
+  name,
+  description,
+  isActive,
+  onToggle,
+  onRemove,
+}) {
+  const [isFading, setIsFading] = useState(false);
+
+  function handleRemoveClick() {
+    setIsFading(true);
+    setTimeout(() => {
+      onRemove();
+    }, 4000);
+  }
+
   return (
     <>
-      <div className="bg-white p-4 rounded-2xl m-4">
+      <div
+        className={`bg-white p-4 rounded-2xl m-4 ${
+          isFading
+            ? "opacity-5 border-4 border-red-700 animate-pulse duration-75 ease-out "
+            : "opacity-100"
+        }`}
+      >
         <div className="flex flex-row gap-4">
           <img src={logoIcons[logo]} className="self-start" alt="" />
           <div className="flex flex-col gap-y-2">
@@ -46,7 +62,10 @@ export function FeatureCard({ logo, name, description, isActive }) {
           </div>
         </div>
         <div className="flex flex-row justify-between mt-8">
-          <button className="text-lg border-2 border-gray-400 px-4 rounded-full">
+          <button
+            onClick={handleRemoveClick}
+            className="text-lg border-2 border-gray-400 px-4 rounded-full active:bg-rose-500"
+          >
             Remove
           </button>
 
@@ -54,13 +73,13 @@ export function FeatureCard({ logo, name, description, isActive }) {
             <button
               type="button"
               className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
-                enabled ? "bg-red-800" : "bg-gray-400"
+                isActive ? "bg-red-800" : "bg-gray-400"
               }`}
-              onClick={() => setEnabled((v) => !v)}
+              onClick={onToggle}
             >
               <span
                 className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                  enabled ? "translate-x-6" : ""
+                  isActive ? "translate-x-6" : ""
                 }`}
               />
             </button>

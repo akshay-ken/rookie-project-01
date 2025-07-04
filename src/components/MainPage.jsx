@@ -9,6 +9,22 @@ export function MainPage() {
   const [activeFilter, setActiveFilter] = useState(false);
   const [inactiveFilter, setInactiveFilter] = useState(false);
 
+  const [features, setFeatures] = useState(cardData);
+
+  function handleRemove(logo) {
+    setFeatures((features) => features.filter((el) => el.logo !== logo));
+  }
+
+  function handleToggle(logo) {
+    setFeatures((features) =>
+      features.map((feature) =>
+        feature.logo === logo
+          ? { ...feature, isActive: !feature.isActive }
+          : feature
+      )
+    );
+  }
+
   const allFilterStyle = clsx(
     "active:bg-red-500 bg-white px-4 py-2 rounded-full",
     { "!bg-red-700": allFilter }
@@ -63,7 +79,7 @@ export function MainPage() {
             </button>
           </div>
         </div>
-        {cardData.map((currentCard) => {
+        {features.map((currentCard) => {
           if (allFilter) {
             return (
               <FeatureCard
@@ -71,12 +87,38 @@ export function MainPage() {
                 name={currentCard.name}
                 description={currentCard.description}
                 logo={currentCard.logo}
+                isActive={currentCard.isActive}
+                onToggle={() => handleToggle(currentCard.logo)}
+                onRemove={() => handleRemove(currentCard.logo)}
               />
             );
           }
           if (activeFilter) {
             if (currentCard.isActive) {
-              return; // add logic for only active cards to show
+              return (
+                <FeatureCard
+                  key={currentCard.logo}
+                  name={currentCard.name}
+                  description={currentCard.description}
+                  logo={currentCard.logo}
+                  isActive={currentCard.isActive}
+                  onToggle={() => handleToggle(currentCard.logo)}
+                />
+              );
+            }
+          }
+          if (inactiveFilter) {
+            if (currentCard.isActive === false) {
+              return (
+                <FeatureCard
+                  key={currentCard.logo}
+                  name={currentCard.name}
+                  description={currentCard.description}
+                  logo={currentCard.logo}
+                  isActive={currentCard.isActive}
+                  onToggle={() => handleToggle(currentCard.logo)}
+                />
+              );
             }
           }
         })}
